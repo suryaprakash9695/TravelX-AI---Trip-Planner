@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Features - TravelX AI</title>
+    <meta name="description"
+        content="Discover TravelX AI's powerful features: AI recommendations, real-time planning, budget optimization, and collaborative trip planning tools.">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✈️</text></svg>">
+</head>
+
+<body>
+    <!-- Navbar -->
+    <header class="navbar">
+        <div class="wrap nav-inner">
+            <a href="{{ url_for('index') }}" class="brand">
+                <svg width="34" height="34" viewBox="0 0 24 24" aria-label="TravelX AI Logo">
+                    <circle cx="12" cy="12" r="10" stroke="#FF6978" stroke-width="1.4" fill="none" />
+                    <path d="M3 12h18" stroke="#FF9A9E" stroke-width="1.4" />
+                </svg>
+                <span class="brand-text">TravelX<span class="accent">AI</span></span>
+            </a>
+
+            <nav class="nav-links">
+                <a href="{{ url_for('index') }}">Home</a>
+                <a href="{{ url_for('features') }}" class="active">Features</a>
+                <a href="{{ url_for('about') }}">About</a>
+                <a href="{{ url_for('contact') }}">Contact</a>
+            </nav>
+
+            <div class="nav-actions">
+                <a href="{{ url_for('index') }}#startplanning" class="btn primary">Start planning</a>
+            </div>
+
+            <!-- Mobile Menu Button -->
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div class="mobile-menu" id="mobileMenu">
+            <div class="mobile-nav-links">
+                <a href="{{ url_for('index') }}">Home</a>
+                <a href="{{ url_for('features') }}" class="active">Features</a>
+                <a href="{{ url_for('about') }}">About</a>
+                <a href="{{ url_for('contact') }}">Contact</a>
+            </div>
+            <div class="mobile-nav-actions">
+                <a href="{{ url_for('index') }}#startplanning" class="btn primary">Start planning</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Features Hero -->
+    <section class="features-page-hero fade-in">
+        <div class="wrap">
+            <h1>Powerful Features for Perfect Trips</h1>
+            <p class="lead">
+                Discover how TravelX AI combines cutting-edge technology with intuitive design
+                to revolutionize your travel planning experience.
+            </p>
+
+            <div class="actions">
+                <a href="#categories" class="btn primary large">Explore Features</a>
+                <a href="{{ url_for('index') }}#startplanning" class="btn ghost large">Try It Free</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Feature Categories -->
+    <section id="categories" class="feature-categories-section fade-in">
+        <div class="wrap">
+            <div class="features-header">
+                <h2>Smart Travel Categories</h2>
+                <p class="features-subtitle">Comprehensive features organized by travel planning stages</p>
+            </div>
+
+            <div class="category-grid">
+                <div class="category-card">
+                    <div class="category-icon-wrapper">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none">
+                            <path
+                                d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"
+                                fill="#FF6E7F" />
+                        </svg>
+                    </div>
+                    <h3>AI Recommendations</h3>
+                    <p>Intelligent suggestions based on your preferences, season, budget, and travel history.</p>
+                    <span class="category-count">12+ Features</span>
+                </div>
+
+                <div class="category-card">
+                    <div class="category-icon-wrapper">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none">
+                            <path
+                                d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z"
+                                stroke="#FF9A9E" stroke-width="2" />
+                            <path d="M12 6V12L16 14" stroke="#FF9A9E" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                        </svg>
+                    </div>
+                    <h3>Real-Time Planning</h3>
+                    <p>Live updates, instant itinerary generation, and real-time availability checks.</p>
+                    <span class="category-count">8+ Features</span>
+                </div>
+                <div class="category-card">
+                    <div class="category-icon-wrapper">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none">
+                            <path
+                                d="M9 12L11 14L15 10M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z"
+                                stroke="#FFD47A" stroke-width="2" stroke-linecap="round" />
+                        </svg>
+                    </div>
+                    <h3>Budget Optimization</h3>
+                    <p>Smart cost tracking, price alerts, and automatic deal detection.</p>
+                    <span class="category-count">10+ Features</span>
+                </div>
+
+                <div class="category-card">
+                    <div class="category-icon-wrapper">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none">
+                            <path d="M3 6H21M3 12H21M3 18H21" stroke="#D67AF7" stroke-width="2"
+                                stroke-linecap="round" />
+                        </svg>
+                    </div>
+                    <h3>Flexible Management</h3>
+                    <p>Easy editing, collaboration tools, and multi-device synchronization.</p>
+                    <span class="category-count">6+ Features</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Detailed Features -->
+    <section class="detailed-features-section fade-in">
+        <div class="wrap">
+            <div class="features-header">
+                <h2>Core Features in Detail</h2>
+                <p class="features-subtitle">Explore how each feature enhances your travel planning experience</p>
+            </div>
+
+            <!-- Feature 1 -->
+            <div class="feature-detail-card">
+                <div class="feature-detail-header">
+                    <div class="feature-detail-icon">
+                        <svg width="30" height="30" viewBox="0 0 24 24" fill="none">
+                            <path
+                                d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"
+                                fill="#FF6E7F" />
+                        </svg>
+                    </div>
+                    <h3>Smart AI Recommendations</h3>
+                </div>
+
+                <div class="feature-detail-content">
+                    <div class="feature-description">
+                        <p>Our AI analyzes millions of data points to provide personalized recommendations that match
+                            your unique travel style, preferences, and budget.</p>
+                        <p>The system learns from your interactions, improving suggestions over time to deliver
+                            increasingly accurate and relevant trip ideas, activities, and accommodations.</p>
+                        <p>Whether you're a foodie looking for hidden culinary gems or an adventure seeker wanting
+                            off-the-beaten-path experiences, our AI understands and delivers.</p>
+                    </div>
+
+                    <div class="feature-highlights">
+                        <h4>
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                                <path
+                                    d="M9 12L11 14L15 10M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z"
+                                    stroke="#FF6E7F" stroke-width="2" stroke-linecap="round" />
+                            </svg>
+                            Key Benefits
+                        </h4>
+                        <ul class="highlights-list">
+                            <li>Personalized activity suggestions</li>
+                            <li>Seasonal and weather-aware recommendations</li>
+                            <li>Budget-optimized options</li>
+                            <li>Learning algorithm improves over time</li>
+                            <li>Local insights from verified travelers</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Feature 2 -->
+            <div class="feature-detail-card">
+                <div class="feature-detail-header">
+                    <div class="feature-detail-icon">
+                        <svg width="30" height="30" viewBox="0 0 24 24" fill="none">
+                            <path
+                                d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z"
+                                stroke="#FF9A9E" stroke-width="2" />
+                            <path d="M12 6V12L16 14" stroke="#FF9A9E" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                        </svg>
+                    </div>
+                    <h3>Real-Time Itinerary Builder</h3>
+                </div>
+
+                <div class="feature-detail-content">
+                    <div class="feature-description">
+                        <p>Generate complete, optimized itineraries in seconds with our real-time planning engine. The
+                            system considers opening hours, travel times, and current conditions.</p>
+                        <p>Watch as your itinerary comes to life with live updates on availability, weather forecasts,
+                            and crowd predictions. Make adjustments on the fly and see the impact instantly.</p>
+                        <p>Integrated with major booking platforms to show real-time prices and availability for
+                            flights, hotels, and activities as you plan.</p>
+                    </div>
+
+                    <div class="feature-highlights">
+                        <h4>
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                                <path
+                                    d="M9 12L11 14L15 10M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z"
+                                    stroke="#FF6E7F" stroke-width="2" stroke-linecap="round" />
+                            </svg>
+                            Key Benefits
+                        </h4>
+                        <ul class="highlights-list">
+                            <li>Instant itinerary generation</li>
+                            <li>Live availability and pricing</li>
+                            <li>Weather-aware scheduling</li>
+                            <li>Real-time traffic and transit updates</li>
+                            <li>Automatic time optimization</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Feature 3 -->
+            <div class="feature-detail-card">
+                <div class="feature-detail-header">
+                    <div class="feature-detail-icon">
+                        <svg width="30" height="30" viewBox="0 0 24 24" fill="none">
+                            <path
+                                d="M9 12L11 14L15 10M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z"
+                                stroke="#FFD47A" stroke-width="2" stroke-linecap="round" />
+                        </svg>
+                    </div>
+                    <h3>Intelligent Budget Management</h3>
+                </div>
+
+                <div class="feature-detail-content">
+                    <div class="feature-description">
+                        <p>Stay on budget with our smart financial tools that track expenses, suggest cost-saving
+                            alternatives, and alert you to deals and discounts.</p>
+                        <p>The system analyzes your spending patterns and provides recommendations to optimize your
+                            budget without compromising on experience quality.</p>
+                        <p>Set budget limits for different categories (accommodation, food, activities) and receive
+                            alerts when you're approaching your limits.</p>
+                    </div>
+
+                    <div class="feature-highlights">
+                        <h4>
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                                <path
+                                    d="M9 12L11 14L15 10M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z"
+                                    stroke="#FF6E7F" stroke-width="2" stroke-linecap="round" />
+                            </svg>
+                            Key Benefits
+                        </h4>
+                        <ul class="highlights-list">
+                            <li>Automatic expense tracking</li>
+                            <li>Price drop alerts</li>
+                            <li>Cost-saving alternatives</li>
+                            <li>Multi-currency support</li>
+                            <li>Budget forecasting</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Feature Stats -->
+    <section class="feature-stats-section fade-in">
+        <div class="wrap">
+            <div class="features-header" style="color: white;">
+                <h2>Powered by Innovation</h2>
+                <p class="features-subtitle" style="color: rgba(255, 255, 255, 0.9);">Numbers that speak for our
+                    technology</p>
+            </div>
+
+            <div class="feature-stats-grid">
+                <div class="feature-stat-card">
+                    <span class="feature-stat-number">99.8%</span>
+                    <span class="feature-stat-label">Accuracy Rate</span>
+                </div>
+                <div class="feature-stat-card">
+                    <span class="feature-stat-number">2.4s</span>
+                    <span class="feature-stat-label">Avg. Planning Time</span>
+                </div>
+                <div class="feature-stat-card">
+                    <span class="feature-stat-number">50M+</span>
+                    <span class="feature-stat-label">Data Points Analyzed</span>
+                </div>
+                <div class="feature-stat-card">
+                    <span class="feature-stat-number">95%</span>
+                    <span class="feature-stat-label">Cost Savings</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Feature Comparison -->
+    <section class="feature-comparison-section fade-in">
+        <div class="wrap">
+            <div class="features-header">
+                <h2>Why Choose TravelX AI?</h2>
+                <p class="features-subtitle">See how we compare to traditional travel planning methods</p>
+            </div>
+
+            <div class="comparison-table">
+                <div class="table-header">
+                    <h3>Features</h3>
+                    <h3>TravelX AI</h3>
+                    <h3>Traditional Planning</h3>
+                </div>
+
+                <div class="table-row">
+                    <div class="feature-name">Planning Time</div>
+                    <div class="feature-status"><span class="feature-yes">2-5 minutes</span></div>
+                    <div class="feature-status"><span class="feature-no">5-20 hours</span></div>
+                </div>
+
+                <div class="table-row">
+                    <div class="feature-name">Personalization</div>
+                    <div class="feature-status"><span class="feature-yes">AI-Powered</span></div>
+                    <div class="feature-status"><span class="feature-no">Manual Research</span></div>
+                </div>
+
+                <div class="table-row">
+                    <div class="feature-name">Real-Time Updates</div>
+                    <div class="feature-status"><span class="feature-yes">Live Integration</span></div>
+                    <div class="feature-status"><span class="feature-no">Static Information</span></div>
+                </div>
+
+                <div class="table-row">
+                    <div class="feature-name">Cost Optimization</div>
+                    <div class="feature-status"><span class="feature-yes">Automatic</span></div>
+                    <div class="feature-status"><span class="feature-no">Manual Comparison</span></div>
+                </div>
+
+                <div class="table-row">
+                    <div class="feature-name">Weather Integration</div>
+                    <div class="feature-status"><span class="feature-yes">Smart Forecasting</span></div>
+                    <div class="feature-status"><span class="feature-no">Basic Checking</span></div>
+                </div>
+
+                <div class="table-row">
+                    <div class="feature-name">Collaboration</div>
+                    <div class="feature-status"><span class="feature-yes">Real-Time Sharing</span></div>
+                    <div class="feature-status"><span class="feature-no">Email/Spreadsheets</span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Demo Preview -->
+    <section class="detailed-features-section fade-in">
+        <div class="wrap">
+            <div class="features-header">
+                <h2>See It In Action</h2>
+                <p class="features-subtitle">Experience our intuitive interface and powerful features</p>
+            </div>
+
+            <div class="demo-preview">
+                <div class="demo-header">
+                    <h3>Interactive Itinerary Dashboard</h3>
+                    <div class="demo-tags">
+                        <span class="demo-tag">Live Demo</span>
+                        <span class="demo-tag">Interactive</span>
+                    </div>
+                </div>
+
+                <div class="demo-screenshot">
+                    <div class="demo-screenshot-icon">📱</div>
+                    <p>In a production environment, this area would show an interactive demo of our itinerary builder
+                        with drag-and-drop functionality, real-time updates, and AI suggestions.</p>
+                </div>
+
+                <div style="text-align: center; margin-top: 30px;">
+                    <a href="{{ url_for('index') }}#startplanning" class="btn primary">Launch Live Demo</a>
+                    <a href="{{ url_for('contact') }}" class="btn ghost" style="margin-left: 15px;">Schedule Full
+                        Demo</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Feature CTA -->
+    <section class="feature-cta-section fade-in">
+        <div class="wrap">
+            <div class="feature-cta-content">
+                <h2>Ready to Experience Smart Travel Planning?</h2>
+                <p>Join thousands of travelers who have transformed their trip planning with TravelX AI's powerful
+                    features.</p>
+
+                <div class="feature-cta-buttons">
+                    <a href="{{ url_for('index') }}#startplanning" class="btn primary large">Start Free Trial</a>
+                    <a href="{{ url_for('contact') }}" class="btn ghost large">Contact Sales</a>
+                    <a href="{{ url_for('about') }}" class="btn ghost large">Learn More</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer-pro">
+        <div class="wrap">
+            <div class="footer-pro-grid">
+                <div class="footer-brand">
+                    <div class="footer-logo">
+                        <svg width="34" height="34" viewBox="0 0 24 24" aria-label="TravelX AI Logo">
+                            <circle cx="12" cy="12" r="10" stroke="#FF6978" stroke-width="1.4" fill="none" />
+                            <path d="M3 12h18" stroke="#FF9A9E" stroke-width="1.4" />
+                        </svg>
+                        <span class="brand-text">TravelX<span class="accent">AI</span></span>
+                    </div>
+                    <p>Your intelligent trip companion — beautifully simple, incredibly smart.</p>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Explore</h4>
+                    <a href="{{ url_for('index') }}#startplanning">Trip Planner</a>
+                    <a href="{{ url_for('index') }}#destinations">Destinations</a>
+                    <a href="{{ url_for('index') }}#features">Features</a>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Company</h4>
+                    <a href="{{ url_for('about') }}">About Us</a>
+                    <a href="{{ url_for('contact') }}">Contact Us</a>
+                    <a href="{{ url_for('features') }}">Features</a>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Support</h4>
+                    <a href="{{ url_for('contact') }}">Contact Us</a>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>© 2025 TravelX AI — Designed & Developed by <a href="https://teamtechpro.netlify.app/"
+                        target="_blank" style="text-decoration: none;">Team TechPro</a>.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scroll to Top Button -->
+    <button class="scroll-top" id="scrollTopBtn">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M12 19V5" stroke="white" stroke-width="2" stroke-linecap="round" />
+            <path d="M5 12L12 5L19 12" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+    </button>
+
+    <script>
+        // Mobile Menu Toggle
+        document.getElementById('mobileMenuBtn').addEventListener('click', function () {
+            this.classList.toggle('active');
+            document.getElementById('mobileMenu').classList.toggle('active');
+        });
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', function (event) {
+            const mobileMenu = document.getElementById('mobileMenu');
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+
+            if (!mobileMenu.contains(event.target) && !mobileMenuBtn.contains(event.target)) {
+                mobileMenu.classList.remove('active');
+                mobileMenuBtn.classList.remove('active');
+            }
+        });
+
+        // Close mobile menu when clicking a link
+        document.querySelectorAll('.mobile-nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                document.getElementById('mobileMenu').classList.remove('active');
+                document.getElementById('mobileMenuBtn').classList.remove('active');
+            });
+        });
+
+        // Scroll to top functionality
+        const scrollTopBtn = document.getElementById('scrollTopBtn');
+
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                scrollTopBtn.classList.add('visible');
+            } else {
+                scrollTopBtn.classList.remove('visible');
+            }
+        });
+
+        scrollTopBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                if (this.getAttribute('href') === '#') return;
+
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

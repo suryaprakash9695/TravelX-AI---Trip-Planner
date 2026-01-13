@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Travel Itinerary - TravelX AI</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- Leaflet Map (FREE) -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✈️</text></svg>">
+</head>
+
+<body>
+
+    <!-- ================= NAVBAR ================= -->
+    <header class="navbar">
+        <div class="wrap nav-inner">
+            <a href="{{ url_for('index') }}" class="brand">
+                <svg width="34" height="34" viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="10" stroke="#FF6978" stroke-width="1.4" fill="none" />
+                    <path d="M3 12h18" stroke="#FF9A9E" stroke-width="1.4" />
+                </svg>
+                <span class="brand-text">TravelX<span class="accent">AI</span></span>
+            </a>
+
+            <nav class="nav-links">
+                <a href="{{ url_for('index') }}">Home</a>
+                <a href="{{ url_for('features') }}">Features</a>
+                <a href="{{ url_for('about') }}">About</a>
+                <a href="{{ url_for('contact') }}">Contact</a>
+            </nav>
+
+            <div class="nav-actions">
+                <a href="{{ url_for('index') }}#startplanning" class="btn primary">Plan New Trip</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- ================= DASHBOARD ================= -->
+    <section class="dashboard-container fade-in">
+        <div class="wrap">
+
+            <div class="dashboard-header">
+                <h1>Your AI-Generated Itinerary</h1>
+                <p class="lead">Personalized travel plan for {{ destination }}</p>
+            </div>
+
+            <!-- Itinerary -->
+            <div class="itinerary-content">
+                <h2>📋 Complete Travel Plan</h2>
+                <div class="itinerary-text">
+                    {{ plan|safe }}
+                </div>
+            </div>
+
+            <!-- Road Route -->
+            {% if route_data %}
+            <div class="itinerary-content">
+                <h2>🛣️ Road Route</h2>
+
+                <div id="map" style="height:420px; border-radius:16px; margin-top:15px;"></div>
+
+                <p style="margin-top:12px; font-weight:600;">
+                    Distance: {{ route_data.distance_km }} km |
+                    Estimated Time: {{ route_data.duration_hr }} hrs
+                </p>
+            </div>
+            {% endif %}
+
+            <!-- Weather -->
+            {% if weather_data %}
+            <div class="weather-info">
+                <h3>🌤️ Weather Forecast</h3>
+                <div class="weather-days">
+                    {% for day in weather_data.days[:5] %}
+                    <div class="weather-day">
+                        <h4>{{ day.datetime }}</h4>
+                        <div class="weather-temp">{{ day.temp }}°C</div>
+                        <div class="weather-desc">{{ day.conditions }}</div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Back Button -->
+            <div class="back-btn">
+                <a href="{{ url_for('index') }}" class="btn primary large">
+                    ← Plan Another Trip
+                </a>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ================= FOOTER ================= -->
+    <footer class="footer-pro">
+        <div class="wrap">
+            <p>© 2025 TravelX AI — Designed & Developed by
+                <a href="https://teamtechpro.netlify.app/" target="_blank">Team TechPro</a>
+            </p>
+        </div>
+    </footer>
+
+    <!-- ================= SCRIPTS ================= -->
+    <script>
+        /* Mobile Menu */
+        const mobileBtn = document.getElementById('mobileMenuBtn');
+        if (mobileBtn) {
+            mobileBtn.addEventListener('click', () => {
+                mobileBtn.classList.toggle('active');
+                document.getElementById('mobileMenu').classList.toggle('active');
+            });
+        }
+
+        /* Scroll to top */
+        const scrollTopBtn = document.getElementById('scrollTopBtn');
+        if (scrollTopBtn) {
+            window.addEventListener('scroll', () => {
+                scrollTopBtn.classList.toggle('visible', window.scrollY > 300);
+            });
+
+            scrollTopBtn.addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        }
+    </script>
+
+    {% if route_data %}
+    <script>
+        /* ================= MAP SCRIPT ================= */
+        const routeGeometry = {{ route_data.geometry | tojson }};
+
+        const map = L.map("map").setView(
+            [routeGeometry.coordinates[0][1], routeGeometry.coordinates[0][0]],
+            6
+        );
+
+        L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+            attribution: "© OpenStreetMap"
+        }).addTo(map);
+
+        L.geoJSON(routeGeometry, {
+            style: { color: "#ff5a7a", weight: 5 }
+        }).addTo(map);
+    </script>
+    {% endif %}
+
+</body>
+
+</html>
