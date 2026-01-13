@@ -38,3 +38,27 @@ Flask (for AI integration)
 AI / APIs:
 
 AI model integration (Ollama / LLM-based logic)
+
+
+🎯 Future Enhancements
+
+🌎 Real-time weather & map integration
+
+🏨 Hotel and flight recommendations
+
+📱 Mobile app version
+
+💬 Chat-based AI assistant
+
+🔐 User login & saved trips
+
+👨‍💻 Team & Contributors
+
+Surya Prakash Singh – Developer
+
+Ritesh Tiwari – Contributor
+
+📜 License
+
+This project is developed for academic and learning purposes.
+Free to use and modify for educational use.
