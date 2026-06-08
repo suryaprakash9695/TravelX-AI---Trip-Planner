@@ -8,6 +8,37 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✈️</text></svg>">
+    <script>
+        // Simple mobile menu toggle
+        document.addEventListener('DOMContentLoaded', function() {
+            const mobileBtn = document.getElementById('mobileMenuBtn');
+            const mobileMenu = document.getElementById('mobileMenu');
+            
+            if (mobileBtn && mobileMenu) {
+                mobileBtn.addEventListener('click', function() {
+                    this.classList.toggle('active');
+                    mobileMenu.classList.toggle('active');
+                });
+            }
+            
+            // Smooth scroll for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    const href = this.getAttribute('href');
+                    if (href !== '#' && href !== '') {
+                        e.preventDefault();
+                        const target = document.querySelector(href);
+                        if (target) {
+                            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                            // Close mobile menu if open
+                            if (mobileMenu) mobileMenu.classList.remove('active');
+                            if (mobileBtn) mobileBtn.classList.remove('active');
+                        }
+                    }
+                });
+            });
+        });
+    </script>
 </head>
 <body>
     <!-- Navbar -->
@@ -232,6 +263,41 @@
                             </svg>
                             <input type="date" class="form-input" name="return" required>
                         </div>
+                    </div>
+
+                    <div class="form-field">
+                        <div class="field-header">
+                            <div class="field-number">5</div>
+                            <label class="field-label">Budget Type</label>
+                        </div>
+                        <div class="select-container">
+                            <svg class="input-icon" width="20" height="20" viewBox="0 0 24 24" fill="none">
+                                <path d="M12 1v22M17 5H9.5a3.5 3.5 0 100 7h5a3.5 3.5 0 110 7H6" stroke="#FF6E7F" stroke-width="2" stroke-linecap="round"/>
+                            </svg>
+                            <select class="form-select" name="budget_type" required>
+                                <option value="budget">Budget-Friendly 💰</option>
+                                <option value="moderate" selected>Moderate 💳</option>
+                                <option value="luxury">Luxury ✨</option>
+                            </select>
+                            <svg class="select-icon" width="20" height="20" viewBox="0 0 24 24" fill="none">
+                                <path d="M6 9l6 6 6-6" stroke="#FF6E7F" stroke-width="2" stroke-linecap="round"/>
+                            </svg>
+                        </div>
+                        <div class="field-hint">Choose your preferred travel style</div>
+                    </div>
+
+                    <div class="form-field">
+                        <div class="field-header">
+                            <div class="field-number">6</div>
+                            <label class="field-label">Number of Travelers</label>
+                        </div>
+                        <div class="input-container">
+                            <svg class="input-icon" width="20" height="20" viewBox="0 0 24 24" fill="none">
+                                <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2M9 11a4 4 0 100-8 4 4 0 000 8zM23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75" stroke="#FF6E7F" stroke-width="2" stroke-linecap="round"/>
+                            </svg>
+                            <input type="number" class="form-input" name="travelers" min="1" max="20" value="1" required>
+                        </div>
+                        <div class="field-hint">How many people are traveling?</div>
                     </div>
 
                     <div class="form-divider">

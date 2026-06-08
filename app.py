@@ -1,16 +1,26 @@
-from flask import Flask, render_template, request, redirect, url_for, flash, session
+from flask import Flask, render_template, request, redirect, url_for, flash, session, jsonify, send_file
 from flask_sitemapper import Sitemapper
 import datetime
 import os
 import re
 import requests
 from dotenv import load_dotenv
+import io
 
 # Local AI (Ollama)
 from local_ai import generate_itinerary
 
 # Road Route
 from route_map import get_road_route
+
+# New modules
+from budget_calculator import estimate_budget, get_budget_tips, compare_budgets
+from database import (
+    save_trip, get_trip_history, get_trip_by_id, 
+    update_trip_rating, delete_trip, get_trip_statistics,
+    add_favorite_destination, get_favorite_destinations
+)
+from export_utils import export_to_json, export_to_ical, export_to_markdown
 
 # ------------------ LOAD ENV ------------------
 load_dotenv()
@@ -78,6 +88,8 @@ def index():
         destination = request.form.get("destination")
         start_date = request.form.get("date")
         end_date = request.form.get("return")
+        budget_type = request.form.get("budget_type", "moderate")
+        travelers = int(request.form.get("travelers", 1))
 
         if not all([source, destination, start_date, end_date]):
             flash("All fields are required!", "danger")
@@ -113,11 +125,29 @@ def index():
         # ---------------- Road Route ----------------
         route_data = get_road_route(source, destination)
 
+        # ---------------- Budget Calculation ----------------
+        budget_data = estimate_budget(days, budget_type, "default", travelers)
+        budget_tips = get_budget_tips(budget_type)
+
+        # ---------------- Save to Database ----------------
+        trip_id = save_trip(
+            source, destination, start_date, end_date, days,
+            format_plan_to_html(plan_text), weather_data, route_data
+        )
+
         # ---------------- Save Session ----------------
+        session["trip_id"] = trip_id
+        session["source"] = source
         session["itinerary"] = format_plan_to_html(plan_text)
         session["destination"] = destination
+        session["start_date"] = start_date
+        session["end_date"] = end_date
+        session["days"] = days
         session["weather_data"] = weather_data
         session["route_data"] = route_data
+        session["budget_data"] = budget_data
+        session["budget_tips"] = budget_tips
+        session["travelers"] = travelers
 
         return redirect(url_for("dashboard"))
 
@@ -133,10 +163,18 @@ def dashboard():
 
     return render_template(
         "dashboard.html",
+        trip_id=session.get("trip_id"),
+        source=session.get("source"),
         plan=session.get("itinerary"),
         destination=session.get("destination"),
+        start_date=session.get("start_date"),
+        end_date=session.get("end_date"),
+        days=session.get("days"),
         weather_data=session.get("weather_data"),
         route_data=session.get("route_data"),
+        budget_data=session.get("budget_data"),
+        budget_tips=session.get("budget_tips"),
+        travelers=session.get("travelers", 1)
     )
 
 # ------------------ STATIC PAGES ------------------
@@ -154,6 +192,134 @@ def contact():
 @app.route("/features")
 def features():
     return render_template("features.html")
+
+# ------------------ NEW ROUTES ------------------
+
+# Trip History
+@app.route("/history")
+def history():
+    trips = get_trip_history(limit=20)
+    stats = get_trip_statistics()
+    return render_template("history.html", trips=trips, stats=stats)
+
+# View specific trip
+@app.route("/trip/<int:trip_id>")
+def view_trip(trip_id):
+    trip = get_trip_by_id(trip_id)
+    if not trip:
+        flash("Trip not found.", "danger")
+        return redirect(url_for("history"))
+    return render_template("view_trip.html", trip=trip)
+
+# Rate trip
+@app.route("/rate-trip/<int:trip_id>", methods=["POST"])
+def rate_trip(trip_id):
+    rating = request.form.get("rating")
+    notes = request.form.get("notes")
+    
+    if rating:
+        update_trip_rating(trip_id, int(rating), notes)
+        flash("Trip rated successfully!", "success")
+    
+    return redirect(url_for("view_trip", trip_id=trip_id))
+
+# Delete trip
+@app.route("/delete-trip/<int:trip_id>", methods=["POST"])
+def delete_trip_route(trip_id):
+    delete_trip(trip_id)
+    flash("Trip deleted successfully.", "success")
+    return redirect(url_for("history"))
+
+# Export trip as JSON
+@app.route("/export/<int:trip_id>/json")
+def export_json(trip_id):
+    trip = get_trip_by_id(trip_id)
+    if not trip:
+        flash("Trip not found.", "danger")
+        return redirect(url_for("history"))
+    
+    json_data = export_to_json(trip)
+    
+    buffer = io.BytesIO()
+    buffer.write(json_data.encode('utf-8'))
+    buffer.seek(0)
+    
+    return send_file(
+        buffer,
+        mimetype='application/json',
+        as_attachment=True,
+        download_name=f'trip_{trip["destination"]}_{trip["start_date"]}.json'
+    )
+
+# Export trip as iCal
+@app.route("/export/<int:trip_id>/ical")
+def export_ical(trip_id):
+    trip = get_trip_by_id(trip_id)
+    if not trip:
+        flash("Trip not found.", "danger")
+        return redirect(url_for("history"))
+    
+    ical_data = export_to_ical(trip)
+    
+    buffer = io.BytesIO()
+    buffer.write(ical_data.encode('utf-8'))
+    buffer.seek(0)
+    
+    return send_file(
+        buffer,
+        mimetype='text/calendar',
+        as_attachment=True,
+        download_name=f'trip_{trip["destination"]}_{trip["start_date"]}.ics'
+    )
+
+# Export trip as Markdown
+@app.route("/export/<int:trip_id>/markdown")
+def export_markdown(trip_id):
+    trip = get_trip_by_id(trip_id)
+    if not trip:
+        flash("Trip not found.", "danger")
+        return redirect(url_for("history"))
+    
+    md_data = export_to_markdown(trip)
+    
+    buffer = io.BytesIO()
+    buffer.write(md_data.encode('utf-8'))
+    buffer.seek(0)
+    
+    return send_file(
+        buffer,
+        mimetype='text/markdown',
+        as_attachment=True,
+        download_name=f'trip_{trip["destination"]}_{trip["start_date"]}.md'
+    )
+
+# Budget comparison
+@app.route("/budget-compare")
+def budget_compare():
+    days = request.args.get("days", 7, type=int)
+    travelers = request.args.get("travelers", 1, type=int)
+    region = request.args.get("region", "default")
+    
+    comparison = compare_budgets(days, region, travelers)
+    return jsonify(comparison)
+
+# Add to favorites
+@app.route("/add-favorite", methods=["POST"])
+def add_favorite():
+    destination = request.form.get("destination")
+    reason = request.form.get("reason")
+    
+    if destination:
+        add_favorite_destination(destination, reason)
+        flash(f"{destination} added to favorites!", "success")
+    
+    return redirect(request.referrer or url_for("index"))
+
+# View favorites
+@app.route("/favorites")
+def favorites():
+    favs = get_favorite_destinations()
+    return render_template("favorites.html", favorites=favs)
 
 # ------------------ SEO ------------------
 @app.route("/robots.txt")
